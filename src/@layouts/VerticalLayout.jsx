@@ -18,7 +18,7 @@ const VerticalLayout = props => {
         {navbar || null}
         {/* Content */}
         <LayoutContent>{children}</LayoutContent>
-        {footer || null}
+        {/* {footer || null} */}
       </div>
     </div>
   )

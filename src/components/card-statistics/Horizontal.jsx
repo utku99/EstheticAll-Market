@@ -23,7 +23,7 @@ const CardStatHorizontal = props => {
               {title}
             </Typography>
           </div>
-          <CustomAvatar variant='rounded' color={avatarColor} skin={avatarSkin} size={avatarSize}>
+          <CustomAvatar variant='circlar' color={avatarColor} skin={avatarSkin} size={avatarSize}>
             <i className={classnames(avatarIcon, `text-[${avatarIconSize}px]`)} />
           </CustomAvatar>
         </div>

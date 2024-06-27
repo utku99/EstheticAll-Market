@@ -67,17 +67,36 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
         renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <SubMenu
+        {/* <SubMenu
           label={dictionary['navigation'].dashboards}
           icon={<i className='tabler-smart-home' />}
           suffix={<CustomChip label='3' size='small' color='error' round='true' />}
         >
-          {/* <MenuItem href={`/${locale}/dashboards/crm`}>{dictionary['navigation'].crm}</MenuItem> */}
-          {/* <MenuItem href={`/${locale}/dashboards/analytics`}>{dictionary['navigation'].analytics}</MenuItem> */}
+          <MenuItem href={`/${locale}/dashboards/crm`}>{dictionary['navigation'].crm}</MenuItem>
+          <MenuItem href={`/${locale}/dashboards/analytics`}>{dictionary['navigation'].analytics}</MenuItem>
           <MenuItem href={`/${locale}/dashboards/ecommerce`}>{dictionary['navigation'].eCommerce}</MenuItem>
-        </SubMenu>
-        <MenuSection label={dictionary['navigation'].appsPages}>
+        </SubMenu> */}
+        <MenuSection
+          // label={dictionary['navigation'].appsPages}
+          label={'Kullanıcı Paneli'}
+        >
+          <MenuItem href={`/${locale}/dashboards/crm`} icon={<i className='tabler-smart-home' />}>
+            Ana Sayfa
+          </MenuItem>
+          <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-shopping-bag' />}>
+            Ürünler
+          </MenuItem>
+          <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-shopping-cart' />}>
+            Siparişler
+          </MenuItem>
+          <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-checkbox' />}>
+            Müşteriler
+          </MenuItem>
           <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-calendar' />}>
+            Takvim
+          </MenuItem>
+          <SubMenu label={'Kullanıcı'} icon={<i className='tabler-user' />}></SubMenu>
+          {/* <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-calendar' />}>
             {dictionary['navigation'].calendar}
           </MenuItem>
           <SubMenu label={dictionary['navigation'].invoice} icon={<i className='tabler-file-description' />}>
@@ -189,9 +208,9 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
             </MenuItem>
             <MenuItem href={`/${locale}/pages/widget-examples/charts`}>{dictionary['navigation'].charts}</MenuItem>
             <MenuItem href={`/${locale}/pages/widget-examples/actions`}>{dictionary['navigation'].actions}</MenuItem>
-          </SubMenu>
+          </SubMenu> */}
         </MenuSection>
-        <MenuSection label={dictionary['navigation'].formsAndTables}>
+        {/* <MenuSection label={dictionary['navigation'].formsAndTables}>
           <MenuItem href={`/${locale}/forms/form-layouts`} icon={<i className='tabler-layout' />}>
             {dictionary['navigation'].formLayouts}
           </MenuItem>
@@ -286,7 +305,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
             </SubMenu>
             <MenuItem disabled>{dictionary['navigation'].disabledMenu}</MenuItem>
           </SubMenu>
-        </MenuSection>
+        </MenuSection> */}
       </Menu>
       {/* <Menu
           popoutMenuOffset={{ mainAxis: 23 }}

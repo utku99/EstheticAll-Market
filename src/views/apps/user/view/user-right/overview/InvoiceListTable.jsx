@@ -88,7 +88,7 @@ const InvoiceListTable = ({ invoiceData }) => {
   const columns = useMemo(
     () => [
       columnHelper.accessor('id', {
-        header: '#',
+        header: '#ID',
         cell: ({ row }) => (
           <Typography
             component={Link}
@@ -98,7 +98,7 @@ const InvoiceListTable = ({ invoiceData }) => {
         )
       }),
       columnHelper.accessor('invoiceStatus', {
-        header: 'Status',
+        header: 'Görsel',
         cell: ({ row }) => (
           <Tooltip
             title={
@@ -126,15 +126,15 @@ const InvoiceListTable = ({ invoiceData }) => {
         )
       }),
       columnHelper.accessor('total', {
-        header: 'Total',
+        header: 'Fiyat',
         cell: ({ row }) => <Typography>{`$${row.original.total}`}</Typography>
       }),
       columnHelper.accessor('issuedDate', {
-        header: 'Issued Date',
+        header: 'Eklenme Tarihi',
         cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
       }),
       columnHelper.accessor('action', {
-        header: 'Action',
+        header: 'İşlemler',
         cell: ({ row }) => (
           <div className='flex items-center'>
             <IconButton>
@@ -213,13 +213,13 @@ const InvoiceListTable = ({ invoiceData }) => {
   return (
     <Card>
       <CardHeader
-        title='Invoice List'
+        title='Ürünler'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
         className='flex items-center justify-between flex-wrap gap-4'
         action={
           <div className='flex items-center gap-4 flex-wrap'>
             <div className='flex items-center gap-2'>
-              <Typography>Show</Typography>
+              <Typography>Göster</Typography>
               <CustomTextField
                 select
                 value={table.getState().pagination.pageSize}
