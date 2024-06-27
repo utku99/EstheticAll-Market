@@ -11,6 +11,8 @@ import EditUserInfo from '@components/dialogs/edit-user-info'
 import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
 import CustomAvatar from '@core/components/mui/Avatar'
+import AddEditAddress from '@/components/dialogs/add-edit-address'
+import BillingCard from '@/components/dialogs/billing-card'
 
 // Vars
 const userData = {
@@ -153,7 +155,7 @@ const UserDetails = () => {
             <OpenDialogOnElementClick
               element={Button}
               elementProps={buttonProps('Düzenle', 'primary', 'contained', 'text-white')}
-              dialog={EditUserInfo}
+              dialog={BillingCard}
               dialogProps={{ data: userData }}
               className='text-white'
             />

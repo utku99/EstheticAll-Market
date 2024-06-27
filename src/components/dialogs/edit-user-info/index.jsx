@@ -19,6 +19,8 @@ import { FormControlLabel } from '@mui/material'
 // Component Imports
 import DialogCloseButton from '../DialogCloseButton'
 import CustomTextField from '@core/components/mui/TextField'
+import classNames from 'classnames'
+import CustomAvatar from '@/@core/components/mui/Avatar'
 
 const initialData = {
   firstName: 'Oliver',
@@ -40,10 +42,31 @@ const countries = ['Select Country', 'France', 'Russia', 'China', 'UK', 'US']
 const EditUserInfo = ({ open, setOpen, data }) => {
   // States
   const [userData, setUserData] = useState(data || initialData)
+  const [fileInput, setFileInput] = useState('')
+  const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
 
   const handleClose = () => {
     setOpen(false)
     setUserData(initialData)
+  }
+
+  const handleFileInputChange = file => {
+    const reader = new FileReader()
+    const { files } = file.target
+
+    if (files && files.length !== 0) {
+      reader.onload = () => setImgSrc(reader.result)
+      reader.readAsDataURL(files[0])
+
+      if (reader.result !== null) {
+        setFileInput(reader.result)
+      }
+    }
+  }
+
+  const handleFileInputReset = () => {
+    setFileInput('')
+    setImgSrc('/images/avatars/1.png')
   }
 
   return (
@@ -59,10 +82,10 @@ const EditUserInfo = ({ open, setOpen, data }) => {
         <i className='tabler-x' />
       </DialogCloseButton>
       <DialogTitle variant='h4' className='flex gap-2 flex-col text-center sm:pbs-16 sm:pbe-6 sm:pli-16'>
-        Edit User Information
-        <Typography component='span' className='flex flex-col text-center'>
+        Firma Bilgileri
+        {/* <Typography component='span' className='flex flex-col text-center'>
           Updating user details will receive a privacy audit.
-        </Typography>
+        </Typography> */}
       </DialogTitle>
       <form onSubmit={e => e.preventDefault()}>
         <DialogContent className='overflow-visible pbs-0 sm:pli-16'>
@@ -70,44 +93,17 @@ const EditUserInfo = ({ open, setOpen, data }) => {
             <Grid item xs={12} sm={6}>
               <CustomTextField
                 fullWidth
-                label='First Name'
-                placeholder='John'
+                label='Firma Adı'
+                placeholder='ABC Medikal'
                 value={userData?.firstName}
                 onChange={e => setUserData({ ...userData, firstName: e.target.value })}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CustomTextField
-                fullWidth
-                label='Last Name'
-                placeholder='Doe'
-                value={userData?.lastName}
-                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextField
-                fullWidth
-                label='User Name'
-                placeholder='JohnDoe'
-                value={userData?.userName}
-                onChange={e => setUserData({ ...userData, userName: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <CustomTextField
-                fullWidth
-                label='Billing Email'
-                placeholder='johnDoe@email.com'
-                value={userData?.billingEmail}
-                onChange={e => setUserData({ ...userData, billingEmail: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <CustomTextField
                 select
                 fullWidth
-                label='Status'
+                label='Firma Ürün Kategorisi'
                 value={userData?.status}
                 onChange={e => setUserData({ ...userData, status: e.target.value })}
               >
@@ -121,75 +117,109 @@ const EditUserInfo = ({ open, setOpen, data }) => {
             <Grid item xs={12} sm={6}>
               <CustomTextField
                 fullWidth
-                label='Tax ID'
-                placeholder='Tax-7490'
-                value={userData?.taxId}
-                onChange={e => setUserData({ ...userData, taxId: e.target.value })}
+                label='Firma Unvanı'
+                placeholder='ABC Medikal Ürünler Pazarlama Lojistik Satış AŞoe'
+                value={userData?.lastName}
+                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CustomTextField
                 fullWidth
-                label='Contact'
-                placeholder='+ 123 456 7890'
-                value={userData?.contact}
-                onChange={e => setUserData({ ...userData, contact: e.target.value })}
+                label='E-Posta'
+                placeholder='ornekadam34@gmail.com'
+                value={userData?.lastName}
+                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CustomTextField
-                select
                 fullWidth
-                label='Language'
-                value={userData?.language?.map(lang => lang.toLowerCase().replace(/\s+/g, '-')) || []}
-                SelectProps={{
-                  multiple: true,
-                  onChange: e => setUserData({ ...userData, language: e.target.value }),
-                  renderValue: selected => (
-                    <div className='flex items-center gap-2'>
-                      {selected.map(value => (
-                        <Chip key={value} label={value} className='capitalize' size='small' />
-                      ))}
-                    </div>
-                  )
-                }}
-              >
-                {languages.map((language, index) => (
-                  <MenuItem key={index} value={language.toLowerCase().replace(/\s+/g, '-')}>
-                    {language}
-                  </MenuItem>
-                ))}
-              </CustomTextField>
+                label='Vergi Dairesi'
+                placeholder='Üsküdar'
+                value={userData?.lastName}
+                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CustomTextField
-                select
                 fullWidth
-                label='Country'
-                value={userData?.country?.toLowerCase().replace(/\s+/g, '-')}
-                onChange={e => setUserData({ ...userData, country: e.target.value })}
-              >
-                {countries.map((country, index) => (
-                  <MenuItem key={index} value={index === 0 ? '' : country.toLowerCase().replace(/\s+/g, '-')}>
-                    {country}
-                  </MenuItem>
-                ))}
-              </CustomTextField>
+                label='Vergi No'
+                placeholder=' Tax-8894'
+                value={userData?.lastName}
+                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
+              />
             </Grid>
+            <Grid item xs={12} sm={6}>
+              <CustomTextField
+                fullWidth
+                label='Adres'
+                placeholder='Üsküdar'
+                value={userData?.lastName}
+                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <CustomTextField
+                fullWidth
+                label='İletişim Telefonu'
+                placeholder='+1 (609) 933-44-22'
+                value={userData?.lastName}
+                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Switch defaultChecked={userData?.useAsBillingAddress} />}
-                label='Use as a billing address?'
+                label='Fatura Adresi Olarak Kullan?'
               />
             </Grid>
           </Grid>
         </DialogContent>
+
+        <DialogContent className='overflow-visible pbs-0 sm:pli-16'>
+          <div className='flex max-sm:flex-col items-center gap-6'>
+            <img height={100} width={100} className='rounded' src={imgSrc} alt='Profile' />
+            <div className='flex flex-grow flex-col gap-4'>
+              <Typography>Gerekli görüntü çözünürlüğü 80x80</Typography>
+              <div className='flex flex-col sm:flex-row gap-4'>
+                <Button
+                  component='label'
+                  variant='contained'
+                  className='text-white'
+                  htmlFor='account-settings-upload-image'
+                >
+                  Yeni Fotoğraf Yükle
+                  <input
+                    hidden
+                    type='file'
+                    value={fileInput}
+                    accept='image/png, image/jpeg'
+                    onChange={handleFileInputChange}
+                    id='account-settings-upload-image'
+                  />
+                </Button>
+                <CustomAvatar
+                  variant='rounded'
+                  color='white'
+                  className='bg-estheticAll_orange text-white cursor-pointer'
+                  size={38}
+                  onClick={handleFileInputReset}
+                >
+                  <i className={classNames('tabler-x', `text-[${20}px]`)} />
+                </CustomAvatar>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+
         <DialogActions className='justify-center pbs-0 sm:pbe-16 sm:pli-16'>
-          <Button variant='contained' onClick={handleClose} type='submit'>
-            Submit
+          <Button variant='contained' onClick={handleClose} type='submit' className='text-white'>
+            Kaydet
           </Button>
-          <Button variant='tonal' color='secondary' type='reset' onClick={handleClose}>
-            Cancel
+          <Button variant='outlined' type='reset' onClick={handleClose}>
+            İptal
           </Button>
         </DialogActions>
       </form>

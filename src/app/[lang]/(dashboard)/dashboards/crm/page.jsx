@@ -25,6 +25,7 @@ import Horizontal from '@views/pages/widget-examples/statistics/Horizontal'
 import { getServerMode } from '@core/utils/serverHelpers'
 import UserDetails from '@/views/apps/user/view/user-left-overview/UserDetails'
 import CardStatHorizontal from '@/components/card-statistics/Horizontal'
+import UserListTable from '@/views/apps/user/list/UserListTable'
 
 const getData = async () => {
   const res = await fetch(`${process.env.API_URL}/apps/invoice`)
@@ -57,6 +58,17 @@ const data = [
   }
 ]
 
+const getDataUser = async () => {
+  // Vars
+  const res = await fetch(`${process.env.API_URL}/apps/user-list`)
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch userData')
+  }
+
+  return res.json()
+}
+
 const DashboardCRM = async () => {
   // Vars
   // const serverMode = getServerMode()
@@ -65,22 +77,24 @@ const DashboardCRM = async () => {
   const invoiceData = await getData()
   // const data = await getData2()
 
+  const userData = await getDataUser()
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={4} md={5}>
         <UserDetails />
       </Grid>
 
-      <Grid item container spacing={6}>
-        <Grid item xs={12} sm={6} md={3}>
-          <CardStatHorizontal {...data[0]} />
+      <Grid item container xs={12} lg={8} md={7} spacing={6}>
+        <Grid item container spacing={6}>
+          <Grid item xs={12} sm={6} md={3} lg={4}>
+            <CardStatHorizontal {...data[0]} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} lg={4}>
+            <CardStatHorizontal {...data[1]} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <CardStatHorizontal {...data[1]} />
-        </Grid>
-      </Grid>
 
-      <Grid item xs={12} lg={8} md={7}>
         <Grid item xs={12}>
           <InvoiceListTable invoiceData={invoiceData} />
         </Grid>
