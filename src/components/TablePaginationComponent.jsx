@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 
 const TablePaginationComponent = ({ table }) => {
   return (
-    <div className='flex justify-between items-center flex-wrap pli-6 border-bs bs-auto plb-[12.5px] gap-2'>
+    <div className='flex justify-center items-center flex-wrap pli-6 border-bs bs-auto plb-[12.5px] gap-2'>
       <Typography color='text.disabled'>
         {/* {`Showing ${
           table.getFilteredRowModel().rows.length === 0

@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 
 // Next Imports
 import Link from 'next/link'
@@ -36,8 +36,6 @@ import {
 } from '@tanstack/react-table'
 
 // Component Imports
-import TableFilters from './TableFilters'
-import AddUserDrawer from './AddUserDrawer'
 import OptionMenu from '@core/components/option-menu'
 import TablePaginationComponent from '@components/TablePaginationComponent'
 import CustomTextField from '@core/components/mui/TextField'
@@ -49,6 +47,8 @@ import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
+import TableFilters from '../user/list/TableFilters'
+import { CardContent, Grid } from '@mui/material'
 
 // Styled Components
 const Icon = styled('i')({})
@@ -85,25 +85,10 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   return <CustomTextField {...props} value={value} onChange={e => setValue(e.target.value)} />
 }
 
-// Vars
-const userRoleObj = {
-  admin: { icon: 'tabler-crown', color: 'error' },
-  author: { icon: 'tabler-device-desktop', color: 'warning' },
-  editor: { icon: 'tabler-edit', color: 'info' },
-  maintainer: { icon: 'tabler-chart-pie', color: 'success' },
-  subscriber: { icon: 'tabler-user', color: 'primary' }
-}
-
-const userStatusObj = {
-  active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
-}
-
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const UserListTable = ({ tableData }) => {
+const AllOrders = ({ tableData }) => {
   // States
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
@@ -302,85 +287,69 @@ const UserListTable = ({ tableData }) => {
     }
   }
 
+  const [plan, setPlan] = useState('')
+  const [status, setStatus] = useState('')
+
+  useEffect(() => {
+    const filteredData = tableData?.filter(user => {
+      if (plan && user.currentPlan !== plan) return false
+      if (status && user.status !== status) return false
+
+      return true
+    })
+
+    setData(filteredData)
+  }, [plan, status, tableData, setData])
+
   return (
     <>
       <Card className='bg-transparent shadow-none'>
-        <CardHeader title='Filtrele' className='pbe-4 pl-0' />
-        <TableFilters setData={setData} tableData={tableData} />
+        <CardContent>
+          <Grid container spacing={6}>
+            <Grid item xs={12} sm={4} className='pl-0'>
+              <Typography variant='body2'>Durum</Typography>
+              <CustomTextField
+                select
+                fullWidth
+                id='select-role'
+                value={status}
+                onChange={e => setStatus(e.target.value)}
+                SelectProps={{ displayEmpty: true }}
+                className='bg-white'
+              >
+                <MenuItem value=''>Tümü</MenuItem>
+                <MenuItem value='admin'>Admin</MenuItem>
+                <MenuItem value='author'>Author</MenuItem>
+                <MenuItem value='editor'>Editor</MenuItem>
+                <MenuItem value='maintainer'>Maintainer</MenuItem>
+                <MenuItem value='subscriber'>Subscriber</MenuItem>
+              </CustomTextField>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Typography variant='body2'>Kategori</Typography>
+              <CustomTextField
+                select
+                fullWidth
+                id='select-plan'
+                value={plan}
+                onChange={e => setPlan(e.target.value)}
+                SelectProps={{ displayEmpty: true }}
+                className='bg-white'
+              >
+                <MenuItem value=''>Tümü</MenuItem>
+                <MenuItem value='basic'>Basic</MenuItem>
+                <MenuItem value='company'>Company</MenuItem>
+                <MenuItem value='enterprise'>Enterprise</MenuItem>
+                <MenuItem value='team'>Team</MenuItem>
+              </CustomTextField>
+            </Grid>
+          </Grid>
+        </CardContent>
       </Card>
 
       <Card>
-        <div className='flex justify-between flex-col items-start md:flex-row md:items-center p-6 gap-4'>
-          <div className='flex items-center gap-2'>
-            <Typography>Göster</Typography>
-            <CustomTextField
-              select
-              value={table.getState().pagination.pageSize}
-              onChange={e => table.setPageSize(Number(e.target.value))}
-              className='is-[70px]'
-            >
-              <MenuItem value='10'>10</MenuItem>
-              <MenuItem value='25'>25</MenuItem>
-              <MenuItem value='50'>50</MenuItem>
-            </CustomTextField>
-          </div>
-          <div className='flex flex-col sm:flex-row is-full sm:is-auto items-start sm:items-center gap-4'>
-            <DebouncedInput
-              value={globalFilter ?? ''}
-              onChange={value => setGlobalFilter(String(value))}
-              placeholder='Arama'
-              className='is-full sm:is-auto'
-            />
-            <Button
-              variant='contained'
-              startIcon={<i className='tabler-plus' />}
-              onClick={() => {
-                // setAddUserOpen(!addUserOpen)
-                router.push(`/${locale}/apps/products/add`)
-              }}
-              className='is-full sm:is-auto text-white'
-            >
-              Ürün Ekle
-            </Button>
-            <Button
-              color='primary'
-              variant='outlined'
-              startIcon={<i className='tabler-upload' />}
-              className='is-full sm:is-auto'
-            >
-              Export
-            </Button>
-          </div>
-        </div>
         <div className='overflow-x-auto'>
           <table className={tableStyles.table}>
-            <thead>
-              {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <th key={header.id}>
-                      {header.isPlaceholder ? null : (
-                        <>
-                          <div
-                            className={classnames({
-                              'flex items-center': header.column.getIsSorted(),
-                              'cursor-pointer select-none': header.column.getCanSort()
-                            })}
-                            onClick={header.column.getToggleSortingHandler()}
-                          >
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                            {{
-                              asc: <i className='tabler-chevron-up text-xl' />,
-                              desc: <i className='tabler-chevron-down text-xl' />
-                            }[header.column.getIsSorted()] ?? null}
-                          </div>
-                        </>
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
             {table.getFilteredRowModel().rows.length === 0 ? (
               <tbody>
                 <tr>
@@ -390,15 +359,17 @@ const UserListTable = ({ tableData }) => {
                 </tr>
               </tbody>
             ) : (
-              <tbody>
+              <tbody className=''>
                 {table
                   .getRowModel()
                   .rows.slice(0, table.getState().pagination.pageSize)
                   .map(row => {
                     return (
-                      <tr key={row.id} className={classnames({ selected: row.getIsSelected() })}>
+                      <tr key={row.id}>
                         {row.getVisibleCells().map(cell => (
-                          <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                          <td key={cell.id}>
+                            <div>{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
+                          </td>
                         ))}
                       </tr>
                     )
@@ -420,10 +391,8 @@ const UserListTable = ({ tableData }) => {
           }}
         />
       </Card>
-
-      <AddUserDrawer open={addUserOpen} handleClose={() => setAddUserOpen(!addUserOpen)} />
     </>
   )
 }
 
-export default UserListTable
+export default AllOrders

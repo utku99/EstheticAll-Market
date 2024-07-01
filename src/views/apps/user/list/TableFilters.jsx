@@ -30,7 +30,7 @@ const TableFilters = ({ setData, tableData }) => {
   return (
     <CardContent>
       <Grid container spacing={6}>
-        <Grid item xs={12} sm={4}>
+        {/* <Grid item xs={12} sm={4}>
           <CustomTextField
             select
             fullWidth
@@ -46,8 +46,8 @@ const TableFilters = ({ setData, tableData }) => {
             <MenuItem value='maintainer'>Maintainer</MenuItem>
             <MenuItem value='subscriber'>Subscriber</MenuItem>
           </CustomTextField>
-        </Grid>
-        <Grid item xs={12} sm={4}>
+        </Grid> */}
+        <Grid item xs={12} sm={4} className=' pl-0'>
           <CustomTextField
             select
             fullWidth
@@ -55,15 +55,16 @@ const TableFilters = ({ setData, tableData }) => {
             value={plan}
             onChange={e => setPlan(e.target.value)}
             SelectProps={{ displayEmpty: true }}
+            className='bg-white rounded-md'
           >
-            <MenuItem value=''>Select Plan</MenuItem>
+            <MenuItem value=''>Kategori Seç</MenuItem>
             <MenuItem value='basic'>Basic</MenuItem>
             <MenuItem value='company'>Company</MenuItem>
             <MenuItem value='enterprise'>Enterprise</MenuItem>
             <MenuItem value='team'>Team</MenuItem>
           </CustomTextField>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        {/* <Grid item xs={12} sm={4}>
           <CustomTextField
             select
             fullWidth
@@ -77,7 +78,7 @@ const TableFilters = ({ setData, tableData }) => {
             <MenuItem value='active'>Active</MenuItem>
             <MenuItem value='inactive'>Inactive</MenuItem>
           </CustomTextField>
-        </Grid>
+        </Grid> */}
       </Grid>
     </CardContent>
   )

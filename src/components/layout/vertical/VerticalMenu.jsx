@@ -86,10 +86,10 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/apps/products`} icon={<i className='tabler-shopping-bag' />}>
             Ürünler
           </MenuItem>
-          <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-shopping-cart' />}>
+          <MenuItem href={`/${locale}/apps/orders`} icon={<i className='tabler-shopping-cart' />}>
             Siparişler
           </MenuItem>
-          <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-checkbox' />}>
+          <MenuItem href={`/${locale}/apps/customers`} icon={<i className='tabler-checkbox' />}>
             Müşteriler
           </MenuItem>
           <MenuItem href={`/${locale}/apps/calendar`} icon={<i className='tabler-calendar' />}>
