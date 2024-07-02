@@ -13,6 +13,7 @@ import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementCli
 import CustomAvatar from '@core/components/mui/Avatar'
 import AddEditAddress from '@/components/dialogs/add-edit-address'
 import BillingCard from '@/components/dialogs/billing-card'
+import EditBankInfo from '@/components/dialogs/edit-bank-info'
 
 // Vars
 const userData = {
@@ -155,7 +156,7 @@ const UserDetails = () => {
             <OpenDialogOnElementClick
               element={Button}
               elementProps={buttonProps('Düzenle', 'primary', 'contained', 'text-white')}
-              dialog={BillingCard}
+              dialog={EditBankInfo}
               dialogProps={{ data: userData }}
               className='text-white'
             />

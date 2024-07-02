@@ -50,6 +50,13 @@ import tableStyles from '@core/styles/table.module.css'
 import TableFilters from '../user/list/TableFilters'
 import { CardContent, Grid } from '@mui/material'
 
+const orderStatus = [
+  { label: 'Onay Bekliyor', value: 1 },
+  { label: 'Onaylandı', value: 2 },
+  { label: 'Kargoya Verildi', value: 3 },
+  { label: 'Tamamlandı', value: 4 }
+]
+
 // Styled Components
 const Icon = styled('i')({})
 
@@ -103,142 +110,51 @@ const AllOrders = ({ tableData }) => {
 
   const columns = useMemo(
     () => [
-      // {
-      //   id: 'select',
-      //   header: ({ table }) => (
-      //     <Checkbox
-      //       {...{
-      //         checked: table.getIsAllRowsSelected(),
-      //         indeterminate: table.getIsSomeRowsSelected(),
-      //         onChange: table.getToggleAllRowsSelectedHandler()
-      //       }}
-      //     />
-      //   ),
-      //   cell: ({ row }) => (
-      //     <Checkbox
-      //       {...{
-      //         checked: row.getIsSelected(),
-      //         disabled: !row.getCanSelect(),
-      //         indeterminate: row.getIsSomeSelected(),
-      //         onChange: row.getToggleSelectedHandler()
-      //       }}
-      //     />
-      //   )
-      // },
       columnHelper.accessor('fullName', {
         header: '#ID',
         cell: ({ row }) => (
-          <Typography
-            component={Link}
-            href={getLocalizedUrl(`apps/invoice/preview/${row.original.id}`, locale)}
-            color='primary'
-          >{`#${row.original.id}`}</Typography>
+          <div>
+            <Typography variant='h6'>Siparişi Veren:</Typography>
+            <Typography color='primary' variant='h6'>{`${row.original.username}`}</Typography>
+          </div>
         )
       }),
       columnHelper.accessor('fullName', {
         header: 'Görsel',
         cell: ({ row }) => (
-          <div className='flex items-center gap-4'>
-            {getAvatar({ avatar: row.original.avatar, fullName: row.original.fullName })}
-            <div className='flex flex-col'>
-              <Typography color='text.primary' className='font-medium'>
-                {row.original.fullName}
-              </Typography>
-              <Typography variant='body2'>{row.original.username}</Typography>
-            </div>
+          <div className='w-[100px]'>
+            <Typography variant='h6'>Sipariş No:</Typography>
+            <Typography color='primary' variant='h6'>{`${row.original.username}`}</Typography>
           </div>
         )
       }),
-      // columnHelper.accessor('role', {
-      //   header: 'Kategori',
-      //   cell: ({ row }) => (
-      //     <div className='flex items-center gap-2'>
-      //       <Icon
-      //         className={userRoleObj[row.original.role].icon}
-      //         sx={{ color: `var(--mui-palette-${userRoleObj[row.original.role].color}-main)` }}
-      //       />
-      //       <Typography className='capitalize' color='text.primary'>
-      //         {row.original.role}
-      //       </Typography>
-      //     </div>
-      //   )
-      // }),
       columnHelper.accessor('category', {
         header: 'Kategori',
         cell: ({ row }) => (
-          <Typography className='capitalize' color='text.primary'>
-            {row.original.currentPlan}
-          </Typography>
+          <div>
+            <Typography variant='body1'>Sipariş Durumu:</Typography>
+            <Typography color='primary' variant='body1'>{`${row.original.username}`}</Typography>
+          </div>
         )
       }),
       columnHelper.accessor('price', {
         header: 'Fiyat',
         cell: ({ row }) => (
-          <Typography className='capitalize' color='text.primary'>
-            {row.original.currentPlan}
-          </Typography>
-        )
-      }),
-      // columnHelper.accessor('billing', {
-      //   cell: ({ row }) => <Typography>{row.original.billing}</Typography>
-      // }),
-      columnHelper.accessor('date', {
-        header: 'Eklenme Tarihi',
-        cell: ({ row }) => (
-          <Typography className='capitalize' color='text.primary'>
-            {row.original.currentPlan}
-          </Typography>
-        )
-      }),
-      // columnHelper.accessor('status', {
-      //   header: 'Tanım',
-      //   cell: ({ row }) => (
-      //     <div className='flex items-center gap-3'>
-      //       <Chip
-      //         variant='tonal'
-      //         className='capitalize'
-      //         label={row.original.status}
-      //         color={userStatusObj[row.original.status]}
-      //         size='small'
-      //       />
-      //     </div>
-      //   )
-      // }),
-      columnHelper.accessor('currentPlan', {
-        header: 'Tanım',
-        cell: ({ row }) => (
-          <Typography className='capitalize' color='text.primary'>
-            {row.original.currentPlan}
-          </Typography>
+          <div className='w-[300px] '>
+            <Typography variant='body1'>İstanbul</Typography>
+            <Typography variant='body1'>14.10.2024 - 15:50</Typography>
+          </div>
         )
       }),
       columnHelper.accessor('action', {
         header: 'İşlemler',
         cell: () => (
-          <div className='flex items-center'>
-            <IconButton>
-              <Link href={getLocalizedUrl('apps/products/edit', locale)} className='flex'>
-                <i className='tabler-send text-[22px] text-textSecondary' />
+          <div className='flex items-center justify-center w-[300px] border-l'>
+            <Button variant='contained' className='text-white w-[160px]'>
+              <Link href={getLocalizedUrl('apps/orders/detail', locale)} className='flex'>
+                Detaylar
               </Link>
-            </IconButton>
-            <IconButton>
-              <i className='tabler-trash text-[22px] text-textSecondary' />
-            </IconButton>
-            {/* <OptionMenu
-              iconClassName='text-[22px] text-textSecondary'
-              options={[
-                {
-                  text: 'Download',
-                  icon: 'tabler-download text-[22px]',
-                  menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
-                },
-                {
-                  text: 'Edit',
-                  icon: 'tabler-edit text-[22px]',
-                  menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
-                }
-              ]}
-            /> */}
+            </Button>
           </div>
         ),
         enableSorting: false
@@ -277,16 +193,6 @@ const AllOrders = ({ tableData }) => {
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
 
-  const getAvatar = params => {
-    const { avatar, fullName } = params
-
-    if (avatar) {
-      return <CustomAvatar src={avatar} size={34} />
-    } else {
-      return <CustomAvatar size={34}>{getInitials(fullName)}</CustomAvatar>
-    }
-  }
-
   const [plan, setPlan] = useState('')
   const [status, setStatus] = useState('')
 
@@ -305,7 +211,7 @@ const AllOrders = ({ tableData }) => {
     <>
       <Card className='bg-transparent shadow-none'>
         <CardContent>
-          <Grid container spacing={6}>
+          <Grid container spacing={6} className='gap-4'>
             <Grid item xs={12} sm={4} className='pl-0'>
               <Typography variant='body2'>Durum</Typography>
               <CustomTextField
@@ -315,17 +221,14 @@ const AllOrders = ({ tableData }) => {
                 value={status}
                 onChange={e => setStatus(e.target.value)}
                 SelectProps={{ displayEmpty: true }}
-                className='bg-white'
+                className='bg-white rounded-md'
               >
-                <MenuItem value=''>Tümü</MenuItem>
-                <MenuItem value='admin'>Admin</MenuItem>
-                <MenuItem value='author'>Author</MenuItem>
-                <MenuItem value='editor'>Editor</MenuItem>
-                <MenuItem value='maintainer'>Maintainer</MenuItem>
-                <MenuItem value='subscriber'>Subscriber</MenuItem>
+                {orderStatus.map(item => (
+                  <MenuItem value={item.value}>{item.label}</MenuItem>
+                ))}
               </CustomTextField>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={4} className='pl-0'>
               <Typography variant='body2'>Kategori</Typography>
               <CustomTextField
                 select
@@ -334,7 +237,7 @@ const AllOrders = ({ tableData }) => {
                 value={plan}
                 onChange={e => setPlan(e.target.value)}
                 SelectProps={{ displayEmpty: true }}
-                className='bg-white'
+                className='bg-white rounded-md'
               >
                 <MenuItem value=''>Tümü</MenuItem>
                 <MenuItem value='basic'>Basic</MenuItem>
@@ -347,38 +250,38 @@ const AllOrders = ({ tableData }) => {
         </CardContent>
       </Card>
 
-      <Card>
-        <div className='overflow-x-auto'>
-          <table className={tableStyles.table}>
-            {table.getFilteredRowModel().rows.length === 0 ? (
-              <tbody>
-                <tr>
-                  <td colSpan={table.getVisibleFlatColumns().length} className='text-center'>
-                    No data available
-                  </td>
-                </tr>
-              </tbody>
-            ) : (
-              <tbody className=''>
-                {table
-                  .getRowModel()
-                  .rows.slice(0, table.getState().pagination.pageSize)
-                  .map(row => {
-                    return (
-                      <tr key={row.id}>
+      <div className='overflow-x-auto'>
+        <table className={tableStyles.table}>
+          {table.getFilteredRowModel().rows.length === 0 ? (
+            <tbody>
+              <tr>
+                <td colSpan={table.getVisibleFlatColumns().length} className='text-center'>
+                  No data available
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody>
+              {table
+                .getRowModel()
+                .rows.slice(0, table.getState().pagination.pageSize)
+                .map(row => {
+                  return (
+                    <Card className='mb-4 px-4 py-6'>
+                      <tr key={row.id} className='border-none flex flex-row justify-between'>
                         {row.getVisibleCells().map(cell => (
                           <td key={cell.id}>
                             <div>{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
                           </td>
                         ))}
                       </tr>
-                    )
-                  })}
-              </tbody>
-            )}
-          </table>
-        </div>
-      </Card>
+                    </Card>
+                  )
+                })}
+            </tbody>
+          )}
+        </table>
+      </div>
 
       <Card className='bg-transparent shadow-none'>
         <TablePagination

@@ -33,24 +33,19 @@ const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexChart
 // Vars
 const tabData = [
   {
-    type: 'orders',
+    type: 'Siparişler',
     avatarIcon: 'tabler-shopping-cart',
-    series: [{ data: [28, 10, 46, 38, 15, 30, 35, 28, 8] }]
+    series: [{ data: [28, 10, 46, 38, 15, 30, 35, 28, 8, 3, 5, 10] }]
   },
   {
-    type: 'sales',
+    type: 'Satışlar',
     avatarIcon: 'tabler-chart-bar',
-    series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30] }]
+    series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30, 0, 0, 0] }]
   },
   {
-    type: 'profit',
-    avatarIcon: 'tabler-currency-dollar',
-    series: [{ data: [10, 22, 27, 33, 42, 32, 27, 22, 8] }]
-  },
-  {
-    type: 'income',
+    type: 'Gelir',
     avatarIcon: 'tabler-chart-pie-2',
-    series: [{ data: [5, 9, 12, 18, 20, 25, 30, 36, 48] }]
+    series: [{ data: [5, 9, 12, 18, 20, 25, 30, 36, 48, 0, 0, 0] }]
   }
 ]
 
@@ -103,7 +98,7 @@ const renderTabPanels = (value, theme, options, colors) => {
 
 const EarningReportsWithTabs = ({ serverMode }) => {
   // States
-  const [value, setValue] = useState('orders')
+  const [value, setValue] = useState('Siparişler')
 
   // Hooks
   const theme = useTheme()
@@ -137,7 +132,7 @@ const EarningReportsWithTabs = ({ serverMode }) => {
     tooltip: { enabled: false },
     dataLabels: {
       offsetY: -11,
-      formatter: val => `${val}k`,
+      formatter: val => `${val}`,
       style: {
         fontWeight: 500,
         colors: [rgbaToHex(`rgb(${theme.mainColorChannels[_mode]} / 0.9)`)],
@@ -165,7 +160,7 @@ const EarningReportsWithTabs = ({ serverMode }) => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { color: rgbaToHex(`rgb(${theme.mainColorChannels[_mode]} / 0.12)`) },
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      categories: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
       labels: {
         style: {
           colors: disabledText,
@@ -177,7 +172,7 @@ const EarningReportsWithTabs = ({ serverMode }) => {
     yaxis: {
       labels: {
         offsetX: -18,
-        formatter: val => `$${val}k`,
+        formatter: val => `${val} ${value == 'Gelir' ? 'TL' : ''}`,
         style: {
           colors: disabledText,
           fontFamily: theme.typography.fontFamily,
@@ -220,11 +215,7 @@ const EarningReportsWithTabs = ({ serverMode }) => {
 
   return (
     <Card>
-      <CardHeader
-        title='Earning Reports'
-        subheader='Yearly Earnings Overview'
-        action={<OptionMenu options={['Last Week', 'Last Month', 'Last Year']} />}
-      />
+      <CardHeader title='Kazanç Raporu' action={<OptionMenu options={['Geçen Hafta', 'Geçen Ay', 'Geçen Yıl']} />} />
       <CardContent>
         <TabContext value={value}>
           <TabList
@@ -239,17 +230,6 @@ const EarningReportsWithTabs = ({ serverMode }) => {
             }}
           >
             {renderTabs(value)}
-            <Tab
-              disabled
-              value='add'
-              label={
-                <div className='flex flex-col items-center justify-center is-[110px] bs-[100px] border border-dashed rounded-xl'>
-                  <CustomAvatar variant='rounded' size={34}>
-                    <i className='tabler-plus text-textSecondary' />
-                  </CustomAvatar>
-                </div>
-              }
-            />
           </TabList>
           {renderTabPanels(value, theme, options, colors)}
         </TabContext>
