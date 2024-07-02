@@ -70,7 +70,7 @@ const ShortcutsDropdown = ({ shortcuts }) => {
 
   return (
     <>
-      <IconButton ref={anchorRef} onClick={handleToggle} className='text-textPrimary'>
+      <IconButton ref={anchorRef} onClick={handleToggle} className='text-textPrimary bg-estheticAll_orange'>
         <i className='tabler-layout-grid-add' />
       </IconButton>
       <Popper

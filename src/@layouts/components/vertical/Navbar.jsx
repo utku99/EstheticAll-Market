@@ -52,7 +52,9 @@ const Navbar = props => {
         [verticalLayoutClasses.headerContentWide]: headerContentWide
       })}
     >
-      <div className={classnames(verticalLayoutClasses.navbar, 'flex bs-full')}>{children}</div>
+      <div className={classnames(verticalLayoutClasses.navbar, 'flex bs-full bg-transparent shadow-none')}>
+        {children}
+      </div>
     </StyledHeader>
   )
 }

@@ -50,7 +50,10 @@ const Layout = async ({ children, params }) => {
         }
       />
       <ScrollToTop className='mui-fixed'>
-        <Button variant='contained' className='is-10 bs-10 rounded-full p-0 min-is-0 flex items-center justify-center'>
+        <Button
+          variant='contained'
+          className='is-10 bs-10 rounded-full p-0 min-is-0 flex items-center justify-center text-white'
+        >
           <i className='tabler-arrow-up' />
         </Button>
       </ScrollToTop>
