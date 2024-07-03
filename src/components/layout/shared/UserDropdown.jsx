@@ -28,6 +28,7 @@ import { useSettings } from '@core/hooks/useSettings'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
+import CustomAvatar from '@/@core/components/mui/Avatar'
 
 // Styled component for badge content
 const BadgeContentSpan = styled('span')({
@@ -85,7 +86,7 @@ const UserDropdown = () => {
 
   return (
     <>
-      <Badge
+      {/* <Badge
         ref={anchorRef}
         overlap='circular'
         badgeContent={<BadgeContentSpan onClick={handleDropdownOpen} />}
@@ -99,7 +100,17 @@ const UserDropdown = () => {
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
         />
-      </Badge>
+
+       
+      </Badge> */}
+      <CustomAvatar
+        ref={anchorRef}
+        onClick={handleDropdownOpen}
+        variant='rounded'
+        className='bg-estheticAll_orange text-white cursor-pointer'
+      >
+        <i className='tabler-layout-grid-add' />
+      </CustomAvatar>
       <Popper
         open={open}
         transition

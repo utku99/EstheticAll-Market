@@ -1,3 +1,5 @@
+'use client'
+
 // Third-party Imports
 import classnames from 'classnames'
 
@@ -13,6 +15,8 @@ import UserDropdown from '@components/layout/shared/UserDropdown'
 // Util Imports
 import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
 import { Breadcrumbs, Link, Stack, Typography } from '@mui/material'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 // Vars
 const shortcuts = [
@@ -102,99 +106,49 @@ const notifications = [
   }
 ]
 
-// const handleUserLogout = async () => {
-//   try {
-//     // Sign out from the app
-//     await signOut({ redirect: false })
-
-//     // Redirect to login page
-//     router.push(getLocalizedUrl('/login', locale))
-//   } catch (error) {
-//     console.error(error)
-
-//     // Show above error in a toast like following
-//     // toastService.error((err as Error).message)
-//   }
-// }
-
 const NavbarContent = () => {
+  const pathname = usePathname()
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    let array = pathname.split('/')
+    if (array[3] == 'products') {
+      setData(['Ürünler'])
+    } else if (array[3] == 'orders') {
+      setData(['Siparişler'])
+      if (array[4] == 'detail') {
+        setData(['Siparişler', 'Sipariş Detayı'])
+      }
+    } else if (array[3] == 'customers') {
+      setData(['Müşteriler'])
+    } else if (array[3] == 'calendar') {
+      setData(['Takvim'])
+    }
+  }, [pathname])
+
   return (
     <div className={classnames(verticalLayoutClasses.navbarContent, 'flex items-center justify-between gap-4 is-full')}>
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-4 '>
         {/* <NavToggle />
         <NavSearch /> */}
-        <Stack spacing={2}>
-          <Breadcrumbs separator='›' aria-label='breadcrumb'>
-            [
-            <Link underline='hover' key='1' color='inherit' href='/' onClick={handleClick}>
-              MUI
-            </Link>
-            ,
-            <Link
-              underline='hover'
-              key='2'
-              color='inherit'
-              href='/material-ui/getting-started/installation/'
-              onClick={handleClick}
-            >
-              Core
-            </Link>
-            ,
-            <Typography key='3' color='text.primary'>
-              Breadcrumb
+        <Typography variant='h4'>Ana Sayfa</Typography>
+        <div className='h-[26px] border-r border-[#EBE9F1]'></div>
+        <i className='tabler-home bg-estheticAll_orange' />
+        {data.map(item => (
+          <>
+            <div>{`${'>'}`}</div>
+            <Typography variant='body1' color={'primary'}>
+              {item}
             </Typography>
-            , ]
-          </Breadcrumbs>
-          <Breadcrumbs separator='-' aria-label='breadcrumb'>
-            [
-            <Link underline='hover' key='1' color='inherit' href='/' onClick={handleClick}>
-              MUI
-            </Link>
-            ,
-            <Link
-              underline='hover'
-              key='2'
-              color='inherit'
-              href='/material-ui/getting-started/installation/'
-              onClick={handleClick}
-            >
-              Core
-            </Link>
-            ,
-            <Typography key='3' color='text.primary'>
-              Breadcrumb
-            </Typography>
-            , ]
-          </Breadcrumbs>
-          <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
-            [
-            <Link underline='hover' key='1' color='inherit' href='/' onClick={handleClick}>
-              MUI
-            </Link>
-            ,
-            <Link
-              underline='hover'
-              key='2'
-              color='inherit'
-              href='/material-ui/getting-started/installation/'
-              onClick={handleClick}
-            >
-              Core
-            </Link>
-            ,
-            <Typography key='3' color='text.primary'>
-              Breadcrumb
-            </Typography>
-            , ]
-          </Breadcrumbs>
-        </Stack>
+          </>
+        ))}
       </div>
       <div className='flex items-center'>
         {/* <LanguageDropdown /> */}
         {/* <ModeDropdown /> */}
-        <ShortcutsDropdown shortcuts={shortcuts} />
+        {/* <ShortcutsDropdown shortcuts={shortcuts} /> */}
         {/* <NotificationsDropdown notifications={notifications} /> */}
-        {/* <UserDropdown /> */}
+        <UserDropdown />
       </div>
     </div>
   )
